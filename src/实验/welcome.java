@@ -11,7 +11,6 @@ public class welcome {
 		   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		   
 		   welpanel p=new welpanel();
-		   
 		   frame.getContentPane().add(p);
 		   frame.pack();
 		   frame.setVisible(true);
