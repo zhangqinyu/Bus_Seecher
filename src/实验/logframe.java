@@ -2,23 +2,28 @@ package 实验;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.*;
 public class logframe {
-	JFrame frame;
-public logframe(){
-	frame=new JFrame("he frame");
-	   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	JFrame logframe;
+public logframe()  {
+	   logframe=new JFrame("he frame");
+	   logframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	   
 	   Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 	   int width = 500;
 	   int height = 500;
-	   frame.setBounds((d.width - width) / 2, (d.height - height) / 2, width, height);
+	   logframe.setBounds((d.width - width) / 2, (d.height - height) / 2, width, height);
 	   panel p=new panel();
 	   
-	   frame.getContentPane().add(p);
-	   frame.pack();
-	   frame.setVisible(true);
+	   logframe.getContentPane().add(p);
+	   logframe.pack();
+	   logframe.setVisible(true);
 }
 
 class panel extends JPanel{
@@ -26,7 +31,11 @@ class panel extends JPanel{
 	private JTextField t1, t2, t3;
 	private JLabel jl1,jl2,jl3;
 	private JPanel jp1,jp2;
-	
+	private Connection conn =null;
+	private Statement stmt =null;
+	private  ResultSet rs =null;
+	private String account;
+	private int code;
 	public panel(){
 		setLayout(null);
 		b1=new JButton("登陆");
@@ -36,7 +45,11 @@ class panel extends JPanel{
 		b1.setBounds(13, 203, 81,41);
 		b2.setBounds(123, 203, 81,41);
 		b3.setBounds(263, 203, 81,41);
+		
 		b1.addActionListener(new ButtonListener());
+		b2.addActionListener(new ButtonListener());
+		b3.addActionListener(new ButtonListener());
+		
 		t1=new JTextField(5);
 		t2=new JTextField(5);
 		
@@ -60,14 +73,80 @@ class panel extends JPanel{
 	}
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			
+			if(e.getSource()==b1)
+			{	
+				account=t1.getText();
+		        code=Integer.parseInt(t2.getText());
+				TestMysqlConnect();
+			    logframe.dispose();
+			    }
+			if(e.getSource()==b2)
+				new zuceframe();
+			    logframe.dispose();
 			if(e.getSource()==b3)
 				System.exit(0);
-			if(e.getSource()==b1)
-				new welcome();
-				frame.dispose();
 		}
 		
 	}
+	public void TestMysqlConnect() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/mydata?"
+					+ "user=root&password=root");
+			stmt = conn.createStatement();
+			//stmt.executeUpdate("insert into shiyan values('"+s1+"')");
+			//这是从控制台直接存入数据库string类型用（'"+s1+"'），int类型用"+s1+"
+		
+//			String sql="INSERT INTO customer " +
+//                   "VALUES ('"+name+"','"+account+"',"+code+")";
+//          stmt.executeUpdate(sql);		
+//			while (rs.next()) {
+//			System.out.println(rs.getString("名字"));
+//			
+//			}
+			rs = stmt.executeQuery("select * from  customer");
+			System.out.println(rs.getString(2));
+			if(rs.next())
+			  {
+				  if(rs.getString(2).equals(account))
+				  {  //if(rs.getInt(3)==code)
+					     new log_succes_frame();
+					  
+				  }   
+				  else
+					  new log_again_frame();
+			  }
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+					rs = null;
+				}
+				if (stmt != null) {
+					stmt.close();
+					stmt = null;
+				}
+				if (conn != null) {
+					conn.close();
+					conn = null;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} 
+		}
+
+	}
+	
+	
+	
+	
 }
 
 }
