@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,6 +34,7 @@ public class zuceframe {
 	} class zucepanel extends JPanel {
 		private String name,account;
 		private  int code;
+		private int count=0;
 		private JButton b1,b2,b3;
 		private JTextField t1, t2, t3;
 		private JLabel jl1,jl2,jl3;
@@ -78,13 +81,7 @@ public class zuceframe {
 			setPreferredSize(new Dimension(400, 300));
 		}
 		private class ButtonListener implements ActionListener {
-			public void actionPerformed(ActionEvent e) {
-//				if(e.getSource()==b2)
-//					System.exit(0);
-//				if(e.getSource()==b1)
-//					new welcome();
-				
-				
+			public void actionPerformed(ActionEvent e) {			
 				if(e.getSource()==b1)
 				{	name=t1.getText();
 				    account=t2.getText();
@@ -113,14 +110,10 @@ public class zuceframe {
 	                   "VALUES ('"+name+"','"+account+"',"+code+")";
 		      	stmt.executeUpdate(sql);
 				rs = stmt.executeQuery("select * from  customer ");
-				if(!isOld())
+				if(isOld())
+				{	
 					new zuce_succes_frame();
-//				while (rs.next()) {
-//				System.out.println(rs.getString("名字"));
-//				
-//				}
-				
-				System.out.println(isOld());
+				}
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SQLException ex) {
@@ -154,23 +147,24 @@ public class zuceframe {
 		
 		
 		
-		public boolean isOld() {
+		public boolean isOld() throws SQLException {
+				ArrayList<String> list = new ArrayList<String>();
+				while (rs.next()) {// 如果有数据，取第一列添加如list
+					list.add(rs.getString(2));
+				}
+				if (list != null && list.size() > 0) {// 如果list中存入了数据，转化为数组
+					String[] arr = new String[list.size()];// 创建一个和list长度一样的数组
+					for (int i = 0; i < list.size(); i++) {
+						arr[i] = list.get(i);// 数组赋值了。
+					}
+					// 输出数组
+					for (int i = 0; i < arr.length; i++) {
+						
+						if(arr[i].equals(account))
+							isOldCustomer=true;
+					}
+				}
 			
-			  try {//有问题！！
-				while(rs.next())
-				  {
-					for(int a=1;;a++)
-					{ if(rs.getString(2).equals(name))
-					  {  
-						  isOldCustomer=true;
-						  
-					  }   else
-						  isOldCustomer=false;
-				  }}
-			} catch (SQLException e) {
-				 
-				e.printStackTrace();
-			}
 		return isOldCustomer;
 	 }
 	}
