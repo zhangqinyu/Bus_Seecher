@@ -1,7 +1,9 @@
-package 实验;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import 登录部分.log_succes_frame;
 
 public class TestMysqlConnect {
 

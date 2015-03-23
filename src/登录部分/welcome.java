@@ -1,6 +1,8 @@
-package 实验;
+package 登录部分;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 public class welcome {
@@ -72,5 +74,13 @@ public class welcome {
 			
 			setPreferredSize(new Dimension(600, 600));
 		}
- 
+		private class ButtonListener implements ActionListener {
+
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+			
+		}
 }}

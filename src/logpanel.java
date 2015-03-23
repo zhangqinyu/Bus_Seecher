@@ -9,9 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import 实验.logframe;
-import 实验.welcome;
-import 实验.zuceframe;
+import 登录部分.logframe;
+import 登录部分.welcome;
+import 登录部分.zuceframe;
 
 import java.sql.*;
 

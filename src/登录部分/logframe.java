@@ -1,4 +1,4 @@
-package 实验;
+package 登录部分;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +16,15 @@ import javax.swing.*;
 
 public class logframe {
 	JFrame logframe;
-
+	// stmt.executeUpdate("insert into shiyan values('"+s1+"')");
+	// 这是从控制台直接存入数据库string类型用（'"+s1+"'），int类型用"+s1+"
+	// String sql="INSERT INTO customer " +
+	// "VALUES ('"+name+"','"+account+"',"+code+")";
+	// stmt.executeUpdate(sql);
+	// while (rs.next()) {
+	// System.out.println(rs.getString("名字"));
+	//
+	// }
 	public logframe() {
 		logframe = new JFrame("he frame");
 		logframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,7 +43,8 @@ public class logframe {
 
 	class panel extends JPanel {
 		private JButton b1, b2, b3;
-		private JTextField t1, t2, t3;
+		private JTextField t1;
+		private JPasswordField t2;//使密码影藏！！
 		private JLabel jl1, jl2, jl3;
 		private JPanel jp1, jp2;
 		private Connection conn = null;
@@ -60,12 +69,12 @@ public class logframe {
 			b3.addActionListener(new ButtonListener());
 
 			t1 = new JTextField(5);
-			t2 = new JTextField(5);
+			t2 = new JPasswordField(5);
 
 			t1.setBounds(125, 42, 140, 41);
 			t2.setBounds(125, 111, 140, 41);
 
-			jl1 = new JLabel("欢迎");
+			jl1 = new JLabel("欢                     迎                     使                     用                     软                     件");
 			jl2 = new JLabel("账号");
 			jl3 = new JLabel("密码");
 
@@ -110,54 +119,9 @@ public class logframe {
 						.getConnection("jdbc:mysql://localhost/mydata?"
 								+ "user=root&password=root");
 				stmt = conn.createStatement();
-				// stmt.executeUpdate("insert into shiyan values('"+s1+"')");
-				// 这是从控制台直接存入数据库string类型用（'"+s1+"'），int类型用"+s1+"
-				// String sql="INSERT INTO customer " +
-				// "VALUES ('"+name+"','"+account+"',"+code+")";
-				// stmt.executeUpdate(sql);
-				// while (rs.next()) {
-				// System.out.println(rs.getString("名字"));
-				//
-				// }
-				rs = stmt.executeQuery("select * from  customer");
-				//System.out.println(rs.getString(2));
-				ArrayList<String> list1 = new ArrayList<String>();// 创建取结果的列表，之所以使用列表，不用数组，因为现在还不知道结果有多少，不能确定数组长度，所有先用list接收，然后转为数组
-				//ArrayList<int[]> list2 = new ArrayList<int[]>();
-				Vector<Integer> list2 = new Vector<Integer>();
-				//System.out.println("1");
-				while (rs.next()) {// 如果有数据，取第二列添加如list
-					list1.add(rs.getString(2));
-					list2.add(rs.getInt(3));
-					//System.out.println("haha");
-					//System.out.println(rs.getString(2));
-				}
-				
 			
-				if (list1 != null && list1.size() > 0&&list2 != null && list2.size() > 0) {// 如果list中存入了数据，转化为数组
-					String[] arr1 = new String[list1.size()];// 创建一个和list长度一样的数组
-					int[] arr2=new int[list2.size()];
-					for (int i = 0; i < list1.size(); i++) {
-						arr1[i] = list1.get(i);// 数组赋值了。
-						
-					}
-					for (int i = 0; i < list2.size(); i++){
-						arr2[i] = Integer.parseInt(list2.get(i).toString());
-						//System.out.println(arr2[i]);
-					}
-					
-					// 输出数组
-					for (int i = 0; i < arr1.length; i++) {
-						//System.out.println(arr1[i]);
-						count++;
-						if(arr1[i].equals(account)&&arr2[i]==code)
-							{new log_succes_frame();
-						    count--;
-							}
-						if(count==arr1.length)
-							new log_again_frame();
-					}
-					
-				}
+				rs = stmt.executeQuery("select * from  customer");
+				log_succes_or_again();
 			
 			}	
 				catch (ClassNotFoundException e) {
@@ -187,6 +151,47 @@ public class logframe {
 
 		}
 
+	
+public void log_succes_or_again(){
+	ArrayList<String> list1 = new ArrayList<String>();// 创建取结果的列表，之所以使用列表，不用数组，因为现在还不知道结果有多少，不能确定数组长度，所有先用list接收，然后转为数组
+	//ArrayList<int[]> list2 = new ArrayList<int[]>();
+	Vector<Integer> list2 = new Vector<Integer>();
+	try {
+		while (rs.next()) {// 如果有数据，取第二列添加如list
+			list1.add(rs.getString(2));
+			list2.add(rs.getInt(3));
+			//System.out.println("haha");
+			//System.out.println(rs.getString(2));
+		}
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
+	
 
+	if (list1 != null && list1.size() > 0&&list2 != null && list2.size() > 0) {// 如果list中存入了数据，转化为数组
+		String[] arr1 = new String[list1.size()];// 创建一个和list长度一样的数组
+		int[] arr2=new int[list2.size()];
+		for (int i = 0; i < list1.size(); i++) {
+			arr1[i] = list1.get(i);// 数组赋值了。
+			
+		}
+		for (int i = 0; i < list2.size(); i++){
+			arr2[i] = Integer.parseInt(list2.get(i).toString());
+			
+		}
+	
+		for (int i = 0; i < arr1.length; i++) {
+			count++;
+			if(arr1[i].equals(account)&&arr2[i]==code)
+				{new log_succes_frame();
+			    count--;
+				}
+			if(count==arr1.length)
+				new log_again_frame();
+		}
+		
+	}
+}
+}
 }

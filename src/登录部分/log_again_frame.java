@@ -1,4 +1,4 @@
-package 实验;
+package 登录部分;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;

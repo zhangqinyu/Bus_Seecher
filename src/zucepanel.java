@@ -14,9 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import 实验.logframe;
-import 实验.zuce_again_frame;
-import 实验.zuce_succes_frame;
+import 登录部分.logframe;
+import 登录部分.zuce_again_frame;
+import 登录部分.zuce_succes_frame;
 public class zucepanel extends JPanel {
 	private String name,account;
 	private  int code;

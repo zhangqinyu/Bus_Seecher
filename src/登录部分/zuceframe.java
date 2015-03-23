@@ -1,4 +1,4 @@
-package 实验;
+package 登录部分;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -63,11 +63,11 @@ public class zuceframe {
 			
 			jl1=new JLabel("姓名");
 			jl2=new JLabel("账号(必须唯一)");
-			jl3=new JLabel("密码");
+			jl3=new JLabel("密码(10位内的整数)");
 			
-			jl1.setBounds(10, 68, 73,35);
-			jl2.setBounds(10, 114, 73,35);
-			jl3.setBounds(10, 175, 73,35);
+			jl1.setBounds(10, 68, 100,35);
+			jl2.setBounds(10, 114, 100,35);
+			jl3.setBounds(10, 175, 120,35);
 			
 			b1.addActionListener(new ButtonListener());
 			b2.addActionListener(new ButtonListener());
