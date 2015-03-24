@@ -33,20 +33,21 @@ public class welcome {
 		private JComboBox jc1 ,jc2 ;
 		private JTextField jt1;
 		private JLabel jl1,jl2,jl3;
-		private JPanel jp1,jp2;
 		private Connection conn = null;
 		private Statement stmt = null;
 		private ResultSet rs = null;
 		private String s1,s2;
 		public welpanel(){
-			setLayout(new GridLayout(2, 1));
+			setLayout(null);
 			
-			//TestMysqlConnect();
 			String []st={"s1","s2","s3","s4","s5","s6","s7","s8","s9","s10","s11","s12","s13",""};
 			this.jc1 = new JComboBox(st);
 			this.jc2 = new JComboBox(st);
 			 jc1.setBounds(40, 20, 150, 30);
 			 jc2.setBounds(300, 20, 150, 30);
+			 
+			jt1=new JTextField(100);
+		    jt1.setBounds(0,300, 600, 300);
 			 
 			b1 = new JButton("最便宜的路线");
 			b2 = new JButton("最短的路线");
@@ -61,40 +62,29 @@ public class welcome {
 			b5.setBounds(459, 100, 85, 40);
 			
 			b1.addActionListener(new ButtonListener());
+			b2.addActionListener(new ButtonListener());
+			b3.addActionListener(new ButtonListener());
 			b4.addActionListener(new ButtonListener());
+			
 			jl1=new JLabel("从");
 			jl2=new JLabel("到");
 	    	jl1.setBounds(10,  20,30, 30);
 	    	jl2.setBounds(245,  20,30, 30);
+	
+			add(jl1);
+			add(jl2);
 			
-			jp1=new JPanel();
-			jp2=new JPanel();
-	        
-			
-			jt1=new JTextField(100);
-			jt1.setBounds(0, 0, 600, 300);
-			
-			jp1.setLayout(null);
-			jp2.setLayout(null);
-			
-			jp1.add(jl1);
-			jp1.add(jl2);
-			jp1.add(b1);
-			jp1.add(b2);
-			jp1.add(b3);
-			jp1.add(b4);
-			jp1.add(b5);
+			add(b1);
+			add(b2);
+			add(b3);
+			add(b4);
+			add(b5);
 		
-			jp1.add(jc1);
-			jp1.add(jc2);
-		    
-			jp2.add(jt1);
+			add(jc1);
+			add(jc2);
 			
-			add(jp1);
-			add(jp2);
-			
-			
-			
+		    add(jt1);
+
 			setPreferredSize(new Dimension(600, 600));
 		}
 		private class ButtonListener implements ActionListener {
@@ -103,14 +93,26 @@ public class welcome {
 			public void actionPerformed(ActionEvent e) {
 				s1 = (String) jc1.getSelectedItem();//取得当前值；
 				s2 = (String) jc2.getSelectedItem();//取得当前值；
-				if (e.getSource() == b1)
-                    TestMysqlConnect(); 
-				if(e.getSource()==b4)
+				if (e.getSource()==b1)
+				{	
+				    TestMysqlConnect();
+				}     
+				if (e.getSource()==b2)
+				{
+					jt1.setText(" b");
+				}
+				if (e.getSource()==b3)
+					{
+					jt1.setText("c");
+					}
+				if (e.getSource()==b4)
+					{
 					jc1.setSelectedItem("");
+					
 				    jc2.setSelectedItem("");
-				    jt1.setText("");
+				    jt1.setText("  ");
 			}
-			
+			}
 		}
 		public void TestMysqlConnect() {
 			try {
@@ -121,8 +123,8 @@ public class welcome {
 				stmt = conn.createStatement();
 			
 				rs = stmt.executeQuery("select * from bus_shiyan");
-				Testbus_search();
-				
+				Testbus_search_single_line();
+			
 			}	
 				catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -181,7 +183,7 @@ public class welcome {
 //    		
 //    		
     		//}
-        public void Testbus_search(){
+        public void Testbus_search_single_line(){
         	
         		ArrayList<String> list2 = new ArrayList<String>();// 创建取结果的列表，之所以使用列表，不用数组，因为现在还不知道结果有多少，不能确定数组长度，所有先用list接收，然后转为数组
         		ArrayList<String> list3 = new ArrayList<String>();
@@ -198,7 +200,7 @@ public class welcome {
         				list4.add(rs.getInt(4));
         			}
         		} catch (SQLException e) {
-        			// TODO Auto-generated catch block
+        			
         			e.printStackTrace();
         		}
         		
@@ -219,17 +221,24 @@ public class welcome {
         			for (int i = 0; i < arr1.length; i++) {
         				
         				if(arr2[i].equals((String) jc1.getSelectedItem())&&arr3[i].equals((String) jc2.getSelectedItem()))
-        					{//System.out.println("haha")
-        					//jt1.setText(String.valueOf(arr1[i]));
+        					{
+        					jt1.setText("请乘坐         "+String.valueOf(arr1[i])+"      号线路"+
+        					",共需         "+String.valueOf(arr4[i])+"      站路");
         					System.out.println(arr1[i]);
-        					}
-        				
-        				
+        					
+        					}	
+        				if(arr3[i].equals((String) jc1.getSelectedItem())&&arr2[i].equals((String) jc2.getSelectedItem()))
+    					{
+        					jt1.setText("请乘坐         "+String.valueOf(arr1[i])+"      号线路"+
+                					",共需         "+String.valueOf(arr4[i])+"      站路");
+    					}
         			}
         			
         		}
         		
         	}
-        
+        public void Testbus_search_some_line(){
+        	
+        }
         }
 }
