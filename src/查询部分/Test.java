@@ -12,25 +12,22 @@ public class Test extends JFrame {
 	private JScrollPane scpDemo;
 	private JTableHeader jth;
 	private JTable tabDemo;
-	private JButton btnShow;
-
 	// 构造方法
 	public Test() {
 		// 窗体的相关属性的定义
 		super("JTable数据绑定示例");
-		this.setSize(330, 400);
+		this.setSize(600,600);
 		this.setLayout(null);
 		this.setLocation(100, 50);
 		// 创建组件
 		this.scpDemo = new JScrollPane();
-		this.scpDemo.setBounds(10, 50, 300, 270);
-		this.btnShow = new JButton("显示数据");
-		this.btnShow.setBounds(10, 10, 300, 30);
+		this.scpDemo.setBounds(0, 0,590, 600);
+		
 		// 给按钮注册监听
 		show_luxian();
 		// 将组件加入到窗体中
 		add(this.scpDemo);
-		add(this.btnShow);
+
 		// 显示窗体
 		this.setVisible(true);
 	}
@@ -45,7 +42,7 @@ public class Test extends JFrame {
 					"jdbc:mysql://localhost/mydata?"
 							+ "user=root&password=root");
 			// 建立查询条件
-			String sql = "select * from bustest ";
+			String sql ="SELECT x.`乘坐路线`as 起始公交,x.`起点`as 出发站, x.`终点`as 中转站1,x.`票价`as 票价1,x.`站点数`as 站数1,y.`乘坐路线`as 换乘公交1,y.`终点`as 中转站2,y.`票价`as 票价2,y.`站点数`as 站数2, z.`乘坐路线`as 换乘公交2,z.`终点`as 终点站,z.`票价`as 票价3,z.`站点数`as 站数3,(x.`站点数`+y.`站点数`+z.`站点数`) as 总站数,(x.`票价`+y.`票价`+z.`票价`) as 总票价 FROM `bustest` x,`bustest` y,`bustest` z where x.起点='s1'and x.终点=y.起点 and y.终点=z.起点and z.终点='s12'and x.`乘坐路线`!=y.`乘坐路线`and y.`乘坐路线`!=z.`乘坐路线`";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			// 执行查询
 			ResultSet rs = pstm.executeQuery();
@@ -56,18 +53,28 @@ public class Test extends JFrame {
 			}
 			rs = pstm.executeQuery();
 			// 将查询获得的记录数据，转换成适合生成JTable的数据形式
-			Object[][] info = new Object[count][5];
+			Object[][] info = new Object[count][115];
 			count = 0;
 			while (rs.next()) {
-				info[count][0] = Integer.valueOf(rs.getInt("乘坐路线"));
-				info[count][1] = rs.getString("起点");
-				info[count][2] = rs.getString("终点");
-				info[count][3] = Integer.valueOf(rs.getInt("站点数"));
-				info[count][4] = Integer.valueOf(rs.getInt("票价"));
+				info[count][0] = Integer.valueOf(rs.getInt("起始公交"));
+				info[count][1] = rs.getString("出发站");
+				info[count][2] = rs.getString("中转站1");
+				info[count][3] = Integer.valueOf(rs.getInt("票价1"));
+				info[count][4] = Integer.valueOf(rs.getInt("站点数1"));
+				info[count][5] = Integer.valueOf(rs.getInt("换乘公交1"));
+				info[count][6] = rs.getString("中转站2");
+				info[count][7] = Integer.valueOf(rs.getInt("票价2"));
+				info[count][8] = Integer.valueOf(rs.getInt("站点数2"));
+				info[count][9] = Integer.valueOf(rs.getInt("换乘公交2"));
+				info[count][10] = rs.getString("终点站");
+				info[count][11] = Integer.valueOf(rs.getInt("票价3"));
+				info[count][12] = Integer.valueOf(rs.getInt("站点数3"));
+				info[count][12] = Integer.valueOf(rs.getInt("总站数"));
+				info[count][14] = Integer.valueOf(rs.getInt("总票价"));
 				count++;
 			}
 			// 定义表头
-			String[] title = { "乘坐路线", "起点", "终点", "站点数","票价" };
+			String[] title = { "起始公交", "出发站","中转站1" ,"票价1","站点数1","换乘公交1","中转站2","票价2","站点数2","换乘公交2","终点站","票价3","站点数3","总站数","总票价"};
 			// 创建JTable
 			this.tabDemo = new JTable(info, title);
 			// 显示表头
