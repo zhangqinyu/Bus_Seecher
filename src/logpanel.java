@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import 登录部分.logframe;
-import 登录部分.welcome;
+
 import 登录部分.zuceframe;
 
 import java.sql.*;

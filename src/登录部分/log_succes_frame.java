@@ -56,7 +56,7 @@ public class log_succes_frame {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == b1)
 					{
-					new welcome();
+					new search_frame();
 					log_succes_frame.dispose();
 					}
 				if (e.getSource() == b2)

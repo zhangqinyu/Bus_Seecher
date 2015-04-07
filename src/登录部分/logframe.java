@@ -105,7 +105,7 @@ public class logframe {
 				}
 				if (e.getSource() == b2)
 					new zuceframe();
-				logframe.dispose();
+				    logframe.dispose();
 				if (e.getSource() == b3)
 					System.exit(0);
 			}
