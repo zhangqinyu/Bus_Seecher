@@ -1,4 +1,4 @@
-package 管理员部分;
+package 登录部分;
 
 import javax.swing.*;
 
@@ -32,11 +32,8 @@ public class delete_bus_panel extends JPanel {
 	private Statement stmt = null;
 	private ResultSet rs = null;
 
-	private JLabel image_label;//图片
-	private ImageIcon image1;
 	public delete_bus_panel() {
 		setLayout(null);
-		//setOpaque(false); //设置为透明！！！
 		jr1 = new JRadioButton("删除车次", true);
 		jr1.setBounds(0, 0, 100, 50);
 		jr2 = new JRadioButton("删除站点");
@@ -48,11 +45,6 @@ public class delete_bus_panel extends JPanel {
 		jr2.addActionListener(new RadioButtonListener());
 		jr3.addActionListener(new RadioButtonListener());
 
-		image_label=new JLabel();
-		image_label.setIcon(getImageIcon("C:\\Users\\18580_000\\Downloads\\delete_image.jpg",120, 130));
-		image_label.setBounds(450, 0, 120, 130);;
-		add(image_label);
-		
 		ButtonGroup group = new ButtonGroup();
 		group.add(jr1);
 		group.add(jr2);
@@ -62,15 +54,7 @@ public class delete_bus_panel extends JPanel {
 		add(jr3);
 		setBounds(0, 0, 600, 600);
 	}
-	 private ImageIcon getImageIcon(String path, int width, int height) {
-   	  if (width == 0 || height == 0) {
-   	   return new ImageIcon(this.getClass().getResource(path));
-   	  }
-   	  ImageIcon icon = new ImageIcon(path);
-   	  icon.setImage(icon.getImage().getScaledInstance(width, height,
-   	    Image.SCALE_DEFAULT));
-   	  return icon;
-   	 }
+
 	private void delete_zujian(int count) {
 
 		switch (count) {

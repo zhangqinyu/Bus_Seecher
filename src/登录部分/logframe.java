@@ -1,8 +1,9 @@
 package 登录部分;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,7 +14,6 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.*;
-
 public class logframe {
 	JFrame logframe;
 	// stmt.executeUpdate("insert into shiyan values('"+s1+"')");
@@ -43,8 +43,8 @@ public class logframe {
 
 	class panel extends JPanel {
 		private JButton b1, b2, b3;
-		private JTextField t1;
-		private JPasswordField t2;//使密码影藏！！
+		private JTextField jt1;
+		private JPasswordField jt2;//使密码影藏！！
 		private JLabel jl1, jl2, jl3;
 		private JPanel jp1, jp2;
 		private Connection conn = null;
@@ -53,9 +53,10 @@ public class logframe {
 		private String account;
 		private int code;
 		private int count=0;//用于判断是否输入有错！！！！！
-
+		private JLabel image_label;//图片
 		public panel() {
 			setLayout(null);
+			setOpaque(false); // 设置为透明！！！
 			b1 = new JButton("登陆");
 			b2 = new JButton("注册");
 			b3 = new JButton("退出");
@@ -68,12 +69,13 @@ public class logframe {
 			b2.addActionListener(new ButtonListener());
 			b3.addActionListener(new ButtonListener());
 
-			t1 = new JTextField(5);
-			t2 = new JPasswordField(5);
+			jt1 = new JTextField(10);
+			jt2 = new JPasswordField(10);
 
-			t1.setBounds(125, 42, 140, 41);
-			t2.setBounds(125, 111, 140, 41);
-
+			jt1.setBounds(125, 42, 140, 41);
+			jt2.setBounds(125, 111, 140, 41);
+	
+	        
 			jl1 = new JLabel("欢                     迎                     使                     用                     软                     件");
 			jl2 = new JLabel("账号");
 			jl3 = new JLabel("密码");
@@ -82,24 +84,30 @@ public class logframe {
 			jl2.setBounds(13, 41, 64, 29);
 			jl3.setBounds(13, 111, 64, 29);
 
+			
+			image_label=new JLabel();
+			image_label.setIcon(new change_image_size ("C:\\Users\\18580_000\\Downloads\\delete_image.jpg",400, 300).getImageIcon());
+			image_label.setBounds(0, 0, 400, 300);;
+			
+			
 			add(b1);
 			add(b2);
 			add(b3);
-			add(t1);
-			add(t2);
+			add(jt1);
+			add(jt2);
 			add(jl1);
 			add(jl2);
 			add(jl3);
-
+			add(image_label);
 			setPreferredSize(new Dimension(400, 300));
 		}
-
-		private class ButtonListener implements ActionListener {
+		
+	private class ButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 
 				if (e.getSource() == b1) {
-					account = t1.getText();
-					code = Integer.parseInt(t2.getText());
+					account = jt1.getText();
+					code = Integer.parseInt(jt2.getText());
 					TestMysqlConnect();
 					logframe.dispose();
 				}

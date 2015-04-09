@@ -1,4 +1,4 @@
-package 管理员部分;
+package 登录部分;
 
 
 import java.awt.Color;
