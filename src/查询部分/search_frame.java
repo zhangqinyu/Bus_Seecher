@@ -147,10 +147,10 @@ public class search_frame {
 			
 			try {
 
-				new tishi(jt1, "select DISTINCT 站名 from bus_beifen ");
-				new tishi(jt2, "select DISTINCT 站名 from bus_beifen ");
-				new tishi(jt3, "select DISTINCT 车次 from bus_beifen");
-				new tishi(jt4, "select DISTINCT 站名 from  bus_beifen "); // 将信息放入下拉框中；
+				new tishi(jt1, "select DISTINCT 站名 from bus_information ");
+				new tishi(jt2, "select DISTINCT 站名 from bus_information ");
+				new tishi(jt3, "select DISTINCT 车次 from bus_information");
+				new tishi(jt4, "select DISTINCT 站名 from bus_information"); // 将信息放入下拉框中；
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

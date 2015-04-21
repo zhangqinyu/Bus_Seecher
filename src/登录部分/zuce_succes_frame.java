@@ -33,7 +33,7 @@ public class zuce_succes_frame {
 			b1 = new JButton("进入登录界面");
 			b2 = new JButton("退出");
 
-			jl1 = new JLabel("恭喜登录成功！！请牢记您的账户和密码 ！！");
+			jl1 = new JLabel("恭喜注册成功！！请牢记您的账户和密码 ！！");
 
 			jl1.setBounds(45, 40, 300, 56);
 

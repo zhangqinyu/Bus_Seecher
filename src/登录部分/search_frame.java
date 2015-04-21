@@ -25,8 +25,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class search_frame {
+	JFrame jframe;
 	public search_frame() {
-		JFrame jframe = new JFrame();
+		jframe = new JFrame();
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = 600;
 		int height = 600;
@@ -42,12 +43,12 @@ public class search_frame {
 		jframe.setSize(700, 600);
 
 		jframe.setVisible(true);
-
+        
 	}
 
 	class welpanel extends JPanel {
 
-		private JButton b1, b2, b3, b4, b5, b6;
+		private JButton b1, b2, b3, b4, b5, b6,b7;
 		private JComboBox jc1, jc2;
 		private JTextField jt1, jt2, jt3, jt4;
 		private JTextField jt5;// 用来给出备选答案；
@@ -88,23 +89,22 @@ public class search_frame {
 			b2 = new JButton("查询2");
 			b3 = new JButton("查询3");
 			b4 = new JButton("清屏");
-			b5 = new JButton("退出");
-			b6 = new JButton("查询");
+			b5 = new JButton("返回");
+			b6 = new JButton("退出");
 
 			b1.setBounds(500, 20, 85, 40);
 			b2.setBounds(500, 80, 85, 40);
 			b3.setBounds(500, 140, 85, 40);
 			b4.setBounds(40, 200, 85, 40);
-			b5.setBounds(500, 200, 85, 40);
-			// b6.setBounds(500, 20, 85, 40);
+			b5.setBounds(270, 200, 85, 40);
+			b6.setBounds(500, 200, 85, 40);
 
 			b1.addActionListener(new ButtonListener());
 			b2.addActionListener(new ButtonListener());
 			b3.addActionListener(new ButtonListener());
 			b4.addActionListener(new ButtonListener());
-
+			b5.addActionListener(new ButtonListener());
 			b6.addActionListener(new ButtonListener());
-
 			jl1 = new JLabel("从");
 			jl2 = new JLabel("==>");
 			jl1.setBounds(10, 20, 30, 30);
@@ -146,10 +146,10 @@ public class search_frame {
 			
 			try {
 
-				new tishi(jt1, "select DISTINCT 站名 from bus_beifen ");
-				new tishi(jt2, "select DISTINCT 站名 from bus_beifen ");
-				new tishi(jt3, "select DISTINCT 车次 from bus_beifen");
-				new tishi(jt4, "select DISTINCT 站名 from  bus_beifen "); // 将信息放入下拉框中；
+				new tishi(jt1, "select DISTINCT 站名 from bus_information ");
+				new tishi(jt2, "select DISTINCT 站名 from bus_information ");
+				new tishi(jt3, "select DISTINCT 车次 from bus_information");
+				new tishi(jt4, "select DISTINCT 站名 from  bus_information "); // 将信息放入下拉框中；
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -324,7 +324,8 @@ public class search_frame {
 								+ "and y.终点='"
 								+ (String) jt2.getText()
 								+ "'"
-								+ "and x.`乘坐路线`!=y.`乘坐路线`";
+								+ "and x.`乘坐路线`!=y.`乘坐路线`"
+								+ "order by 总票价,总站数";
 						PreparedStatement pstm = conn.prepareStatement(sql);
 						// 执行查询
 						ResultSet rs = pstm.executeQuery();
@@ -411,7 +412,8 @@ public class search_frame {
 								+ (String) jt2.getText()
 								+ "'"
 								+ "and x.`乘坐路线`!=y.`乘坐路线`"
-								+ "and y.`乘坐路线`!=z.`乘坐路线`";
+								+ "and y.`乘坐路线`!=z.`乘坐路线`"
+								+ "order by 总票价,总站数";
 
 						PreparedStatement pstm = conn.prepareStatement(sql);
 						// 执行查询
@@ -526,7 +528,7 @@ public class search_frame {
 								.getConnection("jdbc:mysql://localhost/mydata?"
 										+ "user=root&password=root");
 
-						String sql1 = "SELECT 站名 as 上行区 FROM `bus_beifen`where 车次='"
+						String sql1 = "SELECT 站名 as 上行区 FROM `bus_information`where 车次='"
 								+ (String) jt3.getText() + "'and 方向=0";
 						String sql2 = "SELECT DISTINCT 车次,发车,收车,COUNT(站名) as 站数,票价"
 								+ " FROM `bus_information`"
@@ -606,7 +608,7 @@ public class search_frame {
 						Connection conn = DriverManager
 								.getConnection("jdbc:mysql://localhost/mydata?"
 										+ "user=root&password=root");
-						String sql1 = "SELECT 站名 as 下行区 FROM `bus_beifen`where 车次='"
+						String sql1 = "SELECT 站名 as 下行区 FROM `bus_information`where 车次='"
 								+ (String) jt3.getText() + "'and 方向=1";
 						String sql2 = "SELECT DISTINCT 车次,发车,收车,COUNT(站名) as 站数,票价"
 								+ " FROM `bus_information`"
@@ -705,7 +707,7 @@ public class search_frame {
 						Connection conn = DriverManager
 								.getConnection("jdbc:mysql://localhost/mydata?"
 										+ "user=root&password=root");
-						String sql = "SELECT DISTINCT 车次 as 公交路线 FROM `bus_beifen`"
+						String sql = "SELECT DISTINCT 车次 as 公交路线 FROM `bus_information`"
 								+ " where 站名='" + (String) jt4.getText() + "'";
 						PreparedStatement pstm = conn.prepareStatement(sql);
 						// 执行查询
@@ -774,7 +776,11 @@ public class search_frame {
 					jt4.setText("请输入您想查询的站点");
 				}
 				if (e.getSource() == b5) {
-
+					new logframe();
+					jframe.dispose();
+				}
+				if (e.getSource() == b6) {
+					jframe.dispose();
 				}
 			}
 		}

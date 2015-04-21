@@ -299,32 +299,53 @@ public class readTxtFile {
 				
 				if (fangxiang == 0) {
 					while ((lineTxt = bufferedReader.readLine()) != null) {
-						String sql = "INSERT INTO 管理车实验 " + "VALUES ('"
+						//这个sql是将数据存入车信息表中，这个表中的信息不会消失
+						String sql1 = "INSERT INTO 管理车实验 " + "VALUES ('"
 								+ jt1.getText() + "'," + "'" + lineTxt
 								+ "'," + "" + count + "," + "" + fangxiang
 								+ "," + "'" + jt6.getText() + "'," + "'"
 								+ jt7.getText() + "'," + "'"
 								+ jt2.getText() + "',"+Integer.parseInt(jt3.getText())+","+Integer.parseInt(jt4.getText())+","+Integer.parseInt(jt5.getText())+")";
-						stmt.executeUpdate(sql);
+						stmt.executeUpdate(sql1);
+						//下面这个SQL语句是为了后面存如站与站之间信息准备的，存好后立马删除
+						String sql2 = "INSERT INTO tianjia_bus_information " + "VALUES ('"
+								+ jt1.getText() + "'," + "'" + lineTxt
+								+ "'," + "" + count + "," + "" + fangxiang
+								+ "," + "'" + jt6.getText() + "'," + "'"
+								+ jt7.getText() + "'," + "'"
+								+ jt2.getText() + "',"+Integer.parseInt(jt3.getText())+","+Integer.parseInt(jt4.getText())+","+Integer.parseInt(jt5.getText())+")";
+						stmt.executeUpdate(sql2);
 						count++;
 						System.out.println(lineTxt);
 					}
+					new insert_zhan_to_zhan_information();//此方法存入站站信息
 					count = 1;
 				}
 				if (fangxiang == 1) {
 					while ((lineTxt = bufferedReader.readLine()) != null) {
-						String sql = "INSERT INTO 管理车实验 " + "VALUES ('"
+						//这个sql是将数据存入车信息表中，这个表中的信息不会消失
+						String sql1 = "INSERT INTO 管理车实验 " + "VALUES ('"
 								+ jt1.getText() + "'," + "'" + lineTxt
 								+ "'," + "" + count + "," + "" + fangxiang
 								+ "," + "'" + jt6.getText() + "'," + "'"
 								+ jt7.getText() + "'," + "'"
 								+ jt2.getText() + "',"+Integer.parseInt(jt3.getText())+","+Integer.parseInt(jt4.getText())+","+Integer.parseInt(jt5.getText())+")";
-						stmt.executeUpdate(sql);
+						stmt.executeUpdate(sql1);
+						//下面这个SQL语句是为了后面存如站与站之间信息准备的，存好后立马删除
+						String sql2 = "INSERT INTO tianjia_bus_information " + "VALUES ('"
+								+ jt1.getText() + "'," + "'" + lineTxt
+								+ "'," + "" + count + "," + "" + fangxiang
+								+ "," + "'" + jt6.getText() + "'," + "'"
+								+ jt7.getText() + "'," + "'"
+								+ jt2.getText() + "',"+Integer.parseInt(jt3.getText())+","+Integer.parseInt(jt4.getText())+","+Integer.parseInt(jt5.getText())+")";
+						stmt.executeUpdate(sql2);
 						count++;
 						System.out.println(lineTxt);
 					}
+					new insert_zhan_to_zhan_information();//此方法存入站站信息
 					count = 1;
 				}
+				
 				read.close();
 			} else {
 				System.out.println("找不到指定的文件");
@@ -355,12 +376,11 @@ private class recover_frame {
 		show.setBounds(0, 0, 300, 300);
 		jframe.getContentPane().add(re);
 		jframe.getContentPane().add(show);
-		
 		jframe.pack();
-		jframe.setSize(600,300);
+		jframe.setSize(600,340);
 		jframe.setVisible(true);
 	}
-	private class recover_panel extends JPanel {
+	private class recover_panel extends JScrollPane {
 		private JLabel jl;
 		private JTextField jt;
 		private JButton jb1,jb2;
